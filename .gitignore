@@ -1,0 +1,16 @@
+.vs/
+*.user
+*.suo
+
+[Bb]in/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+*.log
+*.obj
+*.pdb
+*.exe
+*.dll
