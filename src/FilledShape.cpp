@@ -4,7 +4,7 @@ void FilledShape::parse(XMLElement* node) {
 	Shape::parse(node);
 	const char* fill_value = node->Attribute("fill");
 	if (fill_value != nullptr) {
-		m_fill = fill_value;
+		m_fill = Color(fill_value);
 	}
 	node->QueryFloatAttribute("fill-opacity", &m_fill_opacity);
 }

@@ -3,9 +3,10 @@
 
 #include"myLib.h"
 #include"Shape.h"
+#include"Color.h"
 class FilledShape : public Shape {
 protected:
-	string m_fill;
+	Color m_fill;
 	float m_fill_opacity;
 public:
 	FilledShape() : Shape(), m_fill("none"), m_fill_opacity(1.0f) {}

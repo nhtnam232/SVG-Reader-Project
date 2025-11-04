@@ -3,10 +3,10 @@
 
 #include"myLib.h"
 #include"FilledShape.h"
-
+#include"Points.h"
 
 class Polygon : public FilledShape {
-	vector<sf::Vector2f> m_points;
+	Points m_points;
 public:
 	Polygon() : FilledShape(){}
 	void parse(XMLElement*) override;
