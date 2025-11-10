@@ -1,12 +1,12 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 #include"myLib.h"
-
+#include"Color.h"
 
 class Shape
 {
 protected:
-	string m_stroke;
+	Color m_stroke;
 	float m_stroke_width, m_stroke_opacity;
 
 public:
