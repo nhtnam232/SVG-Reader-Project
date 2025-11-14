@@ -3,7 +3,7 @@
 void Polygon::parse(XMLElement* node)
 {
     if(node == nullptr) {
-        std::cerr << "Error: node is nullptr in Polygon::parse\n";
+        std::cerr << "Polygon::parse: NULL node\n";
         return;
     }
     FilledShape::parse(node);
