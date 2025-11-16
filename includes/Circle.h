@@ -10,6 +10,7 @@ class myCircle : public myFilledShape {
 public:
 	myCircle() : myFilledShape(), m_cx(0), m_cy(0), m_r(0) {};
 	void parse(tinyxml2::XMLElement*) override;
+	void draw(Gdiplus::Graphics& g) override;
 };
 
 

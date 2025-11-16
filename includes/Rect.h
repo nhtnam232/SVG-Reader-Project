@@ -8,6 +8,7 @@ class myRect : public myFilledShape {
 public:
 	myRect() : myFilledShape(), m_x(0), m_y(0), m_width(0), m_height(0){}
 	void parse(tinyxml2::XMLElement*) override;
+	void draw(Gdiplus::Graphics& g) override;
 };
 
 

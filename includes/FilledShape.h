@@ -11,6 +11,7 @@ protected:
 public:
 	myFilledShape() : myShape(), m_fill("none"), m_fill_opacity(1.0f) {}
 	virtual void parse(tinyxml2::XMLElement*) override;
+	virtual void draw(Gdiplus::Graphics& g) override = 0;
 };
 
 
