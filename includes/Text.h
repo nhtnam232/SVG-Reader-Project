@@ -8,6 +8,7 @@ class myText : public myFilledShape {
 public:
 	myText() : myFilledShape(), m_x(0), m_y(0), m_font_size(12), m_text("") {}
 	void parse(tinyxml2::XMLElement*) override;
+	void draw(Gdiplus::Graphics& g) override;
 };
 
 
