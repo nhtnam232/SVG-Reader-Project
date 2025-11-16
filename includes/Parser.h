@@ -3,7 +3,6 @@
 
 #include"myLib.h"
 #include"Factory.h"
-
 class Parser {
 	vector<Shape*> m_shapes;
 public:

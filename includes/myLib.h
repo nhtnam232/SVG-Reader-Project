@@ -1,5 +1,7 @@
 #ifndef MYLIB_H
 #define MYLIB_H
+#define NOMINMAX
+
 
 #include<iostream>
 #include<string.h>
@@ -9,14 +11,14 @@
 
 
 #include"tinyxml2.h"
-#include<SFML/Graphics.hpp>
-
+#include <windows.h>      
+#include <gdiplus.h>     
 
 
 
 
 using namespace std;
-using namespace tinyxml2;
+#pragma comment (lib,"Gdiplus.lib") 
 
 
 #endif 

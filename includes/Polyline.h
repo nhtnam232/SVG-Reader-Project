@@ -9,8 +9,7 @@ class Polyline : public FilledShape {
 	Points m_points;
 public:
 	Polyline() : FilledShape() {}
-	void parse(XMLElement*) override;
-	void draw(sf::RenderWindow&) override;
+	void parse(tinyxml2::XMLElement*) override;
 };
 
 #endif 

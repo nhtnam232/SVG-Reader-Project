@@ -32,7 +32,6 @@
     <ClInclude Include="includes\Polygon.h" />
     <ClInclude Include="includes\Polyline.h" />
     <ClInclude Include="includes\Rect.h" />
-    <ClInclude Include="includes\Renderer.h" />
     <ClInclude Include="includes\Shape.h" />
     <ClInclude Include="includes\test.h" />
     <ClInclude Include="includes\Text.h" />
@@ -52,7 +51,6 @@
     <ClCompile Include="src\Polygon.cpp" />
     <ClCompile Include="src\Polyline.cpp" />
     <ClCompile Include="src\Rect.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shape.cpp" />
     <ClCompile Include="src\Text.cpp" />
     <ClCompile Include="src\tinyxml2.cpp" />

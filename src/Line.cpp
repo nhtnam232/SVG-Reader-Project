@@ -1,8 +1,4 @@
 #include"Line.h"
-
-void Line::parse(XMLElement* node) {
-
-}
-void Line::draw(sf::RenderWindow& window) {
+void Line::parse(tinyxml2::XMLElement* node) {
 
 }

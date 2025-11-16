@@ -1,5 +1,4 @@
 #include"Parser.h"
-
 Parser::Parser() {
 
 }
@@ -13,15 +12,15 @@ const vector<Shape*>& Parser::getShape() const {
 	return m_shapes;
 }
 bool Parser::loadFile(const string &filePath) {
-	XMLDocument doc;
-	if (doc.LoadFile(filePath.c_str()) != XML_SUCCESS) {
+	tinyxml2::XMLDocument doc;
+	if (doc.LoadFile(filePath.c_str()) != tinyxml2::XML_SUCCESS) {
 		return false;
 	}
-	XMLElement* root = doc.FirstChildElement("svg");
+	tinyxml2::XMLElement* root = doc.FirstChildElement("svg");
 	if (root == nullptr) {
 		return false;
 	}
-	for (XMLElement* node = root->FirstChildElement(); node != nullptr; node = node->NextSiblingElement()) {
+	for (tinyxml2::XMLElement* node = root->FirstChildElement(); node != nullptr; node = node->NextSiblingElement()) {
 		Shape* shape = Factory::getShape(node);
 		if (shape != nullptr) {
 			shape->parse(node);

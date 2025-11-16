@@ -5,6 +5,8 @@
 #include"FilledShape.h"
 class Group : public FilledShape {
 
+public:
+	Group() {}
 };
 
 #endif 

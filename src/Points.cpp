@@ -1,5 +1,4 @@
 #include"Points.h"
-
 Points::Points(const char* pointsString) {
 	if (pointsString == nullptr) {
 		return;
@@ -13,9 +12,9 @@ Points::Points(const char* pointsString) {
 	stringstream ss(pointsStr);
 	float x, y;
 	while (ss >> x >> y) {
-		m_points.push_back(sf::Vector2f(x, y));
+		m_points.push_back(Gdiplus::PointF(x, y));
 	}
 }
-const vector<sf::Vector2f>& Points::getPoints() const {
+const vector<Gdiplus::PointF>& Points::getPoints() const {
 	return this->m_points;
 }

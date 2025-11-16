@@ -7,8 +7,7 @@ class Text : public FilledShape {
 	string m_text;
 public:
 	Text() : FilledShape(), m_x(0), m_y(0), m_font_size(12), m_text("") {}
-	void parse(XMLElement*) override;
-	void draw(sf::RenderWindow&) override;
+	void parse(tinyxml2::XMLElement*) override;
 };
 
 

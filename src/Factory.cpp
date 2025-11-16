@@ -1,6 +1,6 @@
 #include"Factory.h"
 
-Shape* Factory::getShape(XMLElement* element) {
+Shape* Factory::getShape(tinyxml2::XMLElement* element) {
 	const char* nameTemp = element->Name();
 	if (nameTemp == nullptr) {
 		return nullptr;
@@ -29,7 +29,7 @@ Shape* Factory::getShape(XMLElement* element) {
 		return new Polyline();
 	}
 	else if (name == "g") {
-		
+		return new Group();
 	}
 	return nullptr;
 }

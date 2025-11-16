@@ -3,11 +3,11 @@
 #include"myLib.h"
 
 class Color {
-	sf::Color m_color;
+	Gdiplus::Color m_color;
 public:
 	Color() {}
 	Color(const string&);
-	sf::Color getColor() const;
+	Gdiplus::Color getColor() const;
 	void setOpacity(float);
 };
 

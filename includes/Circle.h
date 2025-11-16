@@ -9,8 +9,7 @@ class Circle : public FilledShape {
 
 public:
 	Circle() : FilledShape(), m_cx(0), m_cy(0), m_r(0) {};
-	void parse(XMLElement*) override;
-	void draw(sf::RenderWindow&) override;
+	void parse(tinyxml2::XMLElement*) override;
 };
 
 

@@ -2,7 +2,6 @@
 #define SHAPE_H
 #include"myLib.h"
 #include"Color.h"
-
 class Shape
 {
 protected:
@@ -12,8 +11,7 @@ protected:
 public:
 	Shape() : m_stroke("none"), m_stroke_width(1.0f), m_stroke_opacity(1.0f){}
 	virtual ~Shape() {};
-	virtual void parse(XMLElement*);
-	virtual void draw(sf::RenderWindow&) = 0;
+	virtual void parse(tinyxml2::XMLElement*);
 };
 
 

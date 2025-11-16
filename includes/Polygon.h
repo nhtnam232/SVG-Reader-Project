@@ -9,8 +9,7 @@ class Polygon : public FilledShape {
 	Points m_points;
 public:
 	Polygon() : FilledShape(){}
-	void parse(XMLElement*) override;
-	void draw(sf::RenderWindow&) override;
+	void parse(tinyxml2::XMLElement*) override;
 };
 
 
