@@ -57,6 +57,10 @@
     <ClCompile Include="src\Text.cpp" />
     <ClCompile Include="src\tinyxml2.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="samples\sample.svg" />
+    <None Include="samples\testSample.svg" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

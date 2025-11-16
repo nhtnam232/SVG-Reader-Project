@@ -1,7 +1,7 @@
 #include"Renderer.h"
 
 Renderer::Renderer(const vector<Shape*>& m_shapes) :m_shapes(m_shapes) {
-	m_window.create(sf::VideoMode(800, 600), "SVG READER");
+	m_window.create(sf::VideoMode(1920, 1080), "SVG READER");
 	m_window.setFramerateLimit(60);
 }
 void Renderer::run() {
