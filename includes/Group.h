@@ -3,10 +3,10 @@
 
 #include"myLib.h"
 #include"FilledShape.h"
-class Group : public FilledShape {
+class myGroup : public myFilledShape {
 
 public:
-	Group() {}
+	myGroup() {}
 };
 
 #endif 

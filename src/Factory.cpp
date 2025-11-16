@@ -1,6 +1,6 @@
 #include"Factory.h"
 
-Shape* Factory::getShape(tinyxml2::XMLElement* element) {
+myShape* Factory::getShape(tinyxml2::XMLElement* element) {
 	const char* nameTemp = element->Name();
 	if (nameTemp == nullptr) {
 		return nullptr;
@@ -8,28 +8,28 @@ Shape* Factory::getShape(tinyxml2::XMLElement* element) {
 	string name = nameTemp;
 	
 	if (name == "circle") {
-		return new Circle();
+		return new myCircle();
 	}
 	else if (name == "ellipse") {
-		return new Ellipse();
+		return new myEllipse();
 	}
 	else if (name == "rect") {
-		return new Rect();
+		return new myRect();
 	}
 	else if (name == "line") {
-		return new Line();
+		return new myLine();
 	}
 	else if (name == "text") {
-		return new Text();
+		return new myText();
 	}
 	else if (name == "polygon") {
-		return new Polygon();
+		return new myPolygon();
 	}
 	else if (name == "polyline") {
-		return new Polyline();
+		return new myPolyline();
 	}
 	else if (name == "g") {
-		return new Group();
+		return new myGroup();
 	}
 	return nullptr;
 }

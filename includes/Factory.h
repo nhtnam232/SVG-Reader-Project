@@ -14,7 +14,7 @@ class Factory
 	
 public:
 	
-	static Shape* getShape(tinyxml2::XMLElement* element);
+	static myShape* getShape(tinyxml2::XMLElement* element);
 
 
 };

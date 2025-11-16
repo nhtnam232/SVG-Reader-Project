@@ -1,5 +1,5 @@
 #include"Shape.h"
-void Shape::parse(tinyxml2::XMLElement* node) {
+void myShape::parse(tinyxml2::XMLElement* node) {
 	const char* stroke_value = node->Attribute("stroke");
 	if (stroke_value != nullptr) {
 		m_stroke = Color(stroke_value);

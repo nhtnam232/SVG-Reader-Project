@@ -1,6 +1,6 @@
 #include"Rect.h"
-void Rect::parse(tinyxml2::XMLElement* node) {
-	FilledShape::parse(node);
+void myRect::parse(tinyxml2::XMLElement* node) {
+	myFilledShape::parse(node);
 	node->QueryFloatAttribute("x", &m_x);
 	node->QueryFloatAttribute("y", &m_y);
 	node->QueryFloatAttribute("width", &m_width);

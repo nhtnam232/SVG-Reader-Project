@@ -5,10 +5,10 @@
 #include"FilledShape.h"
 #include"Points.h"
 
-class Polygon : public FilledShape {
+class myPolygon : public myFilledShape {
 	Points m_points;
 public:
-	Polygon() : FilledShape(){}
+	myPolygon() : myFilledShape(){}
 	void parse(tinyxml2::XMLElement*) override;
 };
 

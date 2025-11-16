@@ -2,10 +2,10 @@
 #define LINE_H
 
 #include"Shape.h"
-class Line : public Shape {
+class myLine : public myShape {
 	float m_x1, m_x2, m_y1, m_y2;
 public:
-	Line() : Shape(), m_x1(0), m_x2(0), m_y1(0), m_y2(0) {};
+	myLine() : myShape(), m_x1(0), m_x2(0), m_y1(0), m_y2(0) {};
 	void parse(tinyxml2::XMLElement*) override;
 };
 

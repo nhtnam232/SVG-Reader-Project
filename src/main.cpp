@@ -108,11 +108,11 @@ VOID OnPaint(HDC hdc)
     graphics.FillRectangle(&backgroundBrush, 0, 0, 2000, 2000); // Kích thước đủ lớn
 
     // 4. Lấy danh sách các hình từ Parser
-    const std::vector<Shape*>& shapes = g_parser.getShape();
+    const std::vector<myShape*>& shapes = g_parser.getShape();
 
     // 5. Vòng lặp ĐA HÌNH (Polymorphism)
     // Đây là phần ma thuật của OOP
-    for (Shape* shape : shapes)
+    for (myShape* shape : shapes)
     {
         if (shape != nullptr) {
             // Gọi hàm draw() của từng hình

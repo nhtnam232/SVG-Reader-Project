@@ -19,6 +19,8 @@
 
 using namespace std;
 #pragma comment (lib,"Gdiplus.lib") 
+#pragma comment (lib,"Gdi32.lib")
+#pragma comment (lib,"User32.lib")
 
 
 #endif 

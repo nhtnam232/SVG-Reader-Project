@@ -4,12 +4,12 @@
 #include"myLib.h"
 #include"Factory.h"
 class Parser {
-	vector<Shape*> m_shapes;
+	vector<myShape*> m_shapes;
 public:
 	Parser();
 	~Parser();
 	bool loadFile(const string& filePath);
-	const vector<Shape*>& getShape() const;
+	const vector<myShape*>& getShape() const;
 };
 
 #endif 
