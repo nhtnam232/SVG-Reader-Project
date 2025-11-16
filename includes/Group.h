@@ -7,6 +7,7 @@ class myGroup : public myFilledShape {
 
 public:
 	myGroup() {}
+
 };
 
 #endif 
