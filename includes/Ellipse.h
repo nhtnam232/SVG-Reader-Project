@@ -9,6 +9,7 @@ class myEllipse : public myFilledShape {
 public:
 	myEllipse() : myFilledShape(), m_cx(0), m_cy(0), m_rx(0), m_ry(0){ }
 	void parse(tinyxml2::XMLElement*) override;
+	void draw(Gdiplus::Graphics& g) override;
 };
 
 

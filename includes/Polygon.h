@@ -10,6 +10,7 @@ class myPolygon : public myFilledShape {
 public:
 	myPolygon() : myFilledShape(){}
 	void parse(tinyxml2::XMLElement*) override;
+	void draw(Gdiplus::Graphics& g) override;
 };
 
 

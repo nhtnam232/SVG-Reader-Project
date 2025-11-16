@@ -10,6 +10,7 @@ class myPolyline : public myFilledShape {
 public:
 	myPolyline() : myFilledShape() {}
 	void parse(tinyxml2::XMLElement*) override;
+	void draw(Gdiplus::Graphics& g) override;
 };
 
 #endif 
