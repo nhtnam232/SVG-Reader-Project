@@ -8,6 +8,10 @@ void myPolyline::parse(tinyxml2::XMLElement* node)
 
 void myPolyline::draw(Gdiplus::Graphics& g)
 {
+    vector<Gdiplus::PointF> vec = m_points.getPoints();
+    Gdiplus::PointF* arrPoints = vec.data();
+    int cntPoints = vec.size();
+
     m_fill.setOpacity(m_fill_opacity);
     Gdiplus::SolidBrush brush(m_fill.getColor());
     g.FillPolygon(&brush, arrPoints, cntPoints);
