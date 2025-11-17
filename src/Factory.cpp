@@ -29,7 +29,7 @@ myShape* Factory::getShape(tinyxml2::XMLElement* element) {
 		return new myPolyline();
 	}
 	else if (name == "g") {
-		
+		return new myGroup();
 	}
 	return nullptr;
 }

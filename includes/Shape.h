@@ -13,6 +13,13 @@ public:
 	virtual ~myShape() {};
 	virtual void parse(tinyxml2::XMLElement*);
 	virtual void draw(Gdiplus::Graphics& g) = 0;
+	Color getStroke();
+	float getStrokeWidth();
+	float getStrokeOpacity();
+	void setStroke(Color);
+	void setStrokeWidth(float);
+	void setStrokeOpacity(float);
+	virtual bool isFilledShape() { return false; }
 };
 
 
