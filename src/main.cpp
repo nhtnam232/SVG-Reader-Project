@@ -1,5 +1,4 @@
-﻿// fixed_svg_viewer.cpp
-#include "myLib.h"
+﻿#include "myLib.h"
 #include "Parser.h"
 #include "Shape.h"
 
