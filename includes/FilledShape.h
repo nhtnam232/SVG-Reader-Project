@@ -12,6 +12,11 @@ public:
 	myFilledShape() : myShape(), m_fill(""), m_fill_opacity(1.0f) {}
 	virtual void parse(tinyxml2::XMLElement*) override;
 	virtual void draw(Gdiplus::Graphics& g) override = 0;
+	Color getFill();
+	float getFillOpacity();
+	void setFill(Color);
+	void setFillOpacity(float);
+	bool isFilledShape() override { return true; }
 };
 
 

@@ -10,6 +10,12 @@ Color::Color(const string& ColorString) {
 	else if (ColorString == "blue") {
 		m_color = Gdiplus::Color::Blue;
 	}
+	else if (ColorString == "green") {
+		m_color = Gdiplus::Color::Green;
+	}
+	else if (ColorString == "white") {
+		m_color = Gdiplus::Color::White;
+	}
 	else if (ColorString.find("rgb") == 0) {
 		string temp = ColorString.substr(4);
 		for (int i = 0; i < temp.size(); i++) {
@@ -34,6 +40,5 @@ void Color::setOpacity(float opacity) {
 	BYTE r = m_color.GetR();
 	BYTE g = m_color.GetG();
 	BYTE b = m_color.GetB();
-
 	m_color = Gdiplus::Color(alpha, r, g, b);
 }

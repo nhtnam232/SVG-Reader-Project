@@ -7,3 +7,15 @@ void myFilledShape::parse(tinyxml2::XMLElement* node) {
 	}
 	node->QueryFloatAttribute("fill-opacity", &m_fill_opacity);
 }
+Color myFilledShape::getFill() {
+	return m_fill;
+}
+float myFilledShape::getFillOpacity() {
+	return m_fill_opacity;
+}
+void myFilledShape::setFill(Color other) {
+	m_fill = other;
+}
+void myFilledShape::setFillOpacity(float other) {
+	m_fill_opacity = other;
+}
