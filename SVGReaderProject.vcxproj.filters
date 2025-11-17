@@ -118,7 +118,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="samples\testSample.svg" />
     <None Include="samples\sample.svg" />
   </ItemGroup>
 </Project>
