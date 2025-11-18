@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\Camera.h" />
     <ClInclude Include="includes\Circle.h" />
     <ClInclude Include="includes\Color.h" />
     <ClInclude Include="includes\Ellipse.h" />
@@ -33,11 +34,13 @@
     <ClInclude Include="includes\Polyline.h" />
     <ClInclude Include="includes\Rect.h" />
     <ClInclude Include="includes\Shape.h" />
+    <ClInclude Include="includes\SVGRenderer.h" />
     <ClInclude Include="includes\test.h" />
     <ClInclude Include="includes\Text.h" />
     <ClInclude Include="includes\tinyxml2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Circle.cpp" />
     <ClCompile Include="src\Color.cpp" />
     <ClCompile Include="src\Ellipse.cpp" />
@@ -52,6 +55,7 @@
     <ClCompile Include="src\Polyline.cpp" />
     <ClCompile Include="src\Rect.cpp" />
     <ClCompile Include="src\Shape.cpp" />
+    <ClCompile Include="src\SVGRenderer.cpp" />
     <ClCompile Include="src\Text.cpp" />
     <ClCompile Include="src\tinyxml2.cpp" />
   </ItemGroup>
@@ -144,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)includes;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)includes</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -163,7 +167,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)includes;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)includes</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
