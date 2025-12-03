@@ -29,6 +29,7 @@
     <ClInclude Include="includes\Line.h" />
     <ClInclude Include="includes\myLib.h" />
     <ClInclude Include="includes\Parser.h" />
+    <ClInclude Include="includes\Path.h" />
     <ClInclude Include="includes\Points.h" />
     <ClInclude Include="includes\Polygon.h" />
     <ClInclude Include="includes\Polyline.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="includes\test.h" />
     <ClInclude Include="includes\Text.h" />
     <ClInclude Include="includes\tinyxml2.h" />
+    <ClInclude Include="includes\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
@@ -50,6 +52,7 @@
     <ClCompile Include="src\Line.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Parrser.cpp" />
+    <ClCompile Include="src\Path.cpp" />
     <ClCompile Include="src\Points.cpp" />
     <ClCompile Include="src\Polygon.cpp" />
     <ClCompile Include="src\Polyline.cpp" />
@@ -58,6 +61,7 @@
     <ClCompile Include="src\SVGRenderer.cpp" />
     <ClCompile Include="src\Text.cpp" />
     <ClCompile Include="src\tinyxml2.cpp" />
+    <ClCompile Include="src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="samples\sample.svg" />

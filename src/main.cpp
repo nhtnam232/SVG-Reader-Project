@@ -24,7 +24,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
     ULONG_PTR gdiplusToken;
     Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-    if (!parser.loadFile("samples\\sample.svg")) {
+    if (!parser.loadFile("samples//sample.svg")) {
         MessageBox(NULL, TEXT("Cannot open SVG File!"), TEXT("Error"), MB_OK | MB_ICONERROR);
     }
 
