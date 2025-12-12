@@ -40,3 +40,30 @@ void myListTransform::parse(const char* transformStr) {
 		}
 	}
 }
+
+Gdiplus::Matrix* myTranslate::GetMatrix() const {
+	return new Gdiplus::Matrix(1.0f, 0.0f, 0.0f, 1.0f, m_dx, m_dy);
+}
+
+Gdiplus::Matrix* myRotate::GetMatrix() const {
+	float angleRad = m_angle * PI / 180.0f; // Deegre to radian
+	float cosAngle = cos(angleRad);
+	float sinAngle = sin(angleRad);
+	return new Gdiplus::Matrix(cosAngle, sinAngle, -sinAngle, cosAngle, 0.0f, 0.0f);
+}
+
+Gdiplus::Matrix* myScale::GetMatrix() const {
+	return new Gdiplus::Matrix(m_sx, 0.0f, 0.0f, m_sy, 0.0f, 0.0f);
+}
+
+Gdiplus::Matrix* myListTransform::getFinalMatrix() const {
+	Gdiplus::Matrix* finalMatrix = new Gdiplus::Matrix();
+
+	for (int i = m_transforms.size() - 1; i >= 0; --i) {
+		Gdiplus::Matrix* tempMtx = m_transforms[i]->GetMatrix();
+		finalMatrix->Multiply(tempMtx, Gdiplus::MatrixOrderPrepend);
+		delete tempMtx;
+	}
+
+	return finalMatrix;
+}
