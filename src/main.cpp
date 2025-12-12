@@ -24,8 +24,15 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
     ULONG_PTR gdiplusToken;
     Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-    if (!parser.loadFile("samples//sample.svg")) {
-        MessageBox(NULL, TEXT("Cannot open SVG File!"), TEXT("Error"), MB_OK | MB_ICONERROR);
+    string filePath = "";
+    if (__argc > 1) {
+        filePath = __argv[1];
+    }
+
+    if (!parser.loadFile(filePath.c_str())) {
+        std::string msg = "Cannot open SVG File: " + filePath;
+        MessageBoxA(NULL, msg.c_str(), "Error", MB_OK | MB_ICONERROR);
+        return -1; // Thoát nếu không load được
     }
 
     WNDCLASS wc = {};

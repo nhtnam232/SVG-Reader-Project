@@ -19,6 +19,7 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 			startY = y;
 			endX = x;
 			endY = y;
+			m_path->StartFigure();
 			break;
 		case 'L':
 			ss >> x >> y;
@@ -50,6 +51,5 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 		default:
 			break;
 		}
-		
 	}
 }
