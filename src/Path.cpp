@@ -53,3 +53,26 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 		}
 	}
 }
+
+void myPath::draw(Gdiplus::Graphics& g)
+{	
+	Gdiplus::Matrix originalMatrix;
+	g.GetTransform(&originalMatrix);
+
+	Gdiplus::Matrix* transformMatrix = m_transforms.getFinalMatrix();
+	if(transformMatrix != nullptr) g.MultiplyTransform(transformMatrix);
+
+	m_fill.setOpacity(m_fill_opacity);
+	Gdiplus::SolidBrush fill_pen(m_fill.getColor());
+	g.FillPath(&fill_pen, m_path);
+
+	if (m_stroke.getColor().GetAlpha() != 0 && m_stroke_width != 0)
+	{
+		m_stroke.setOpacity(m_stroke_opacity);
+		Gdiplus::Pen stroke_pen(m_stroke.getColor(),m_stroke_width);
+		g.DrawPath(&stroke_pen, m_path);
+	}
+
+	g.SetTransform(&originalMatrix);
+	if (transformMatrix != nullptr) delete transformMatrix;
+}

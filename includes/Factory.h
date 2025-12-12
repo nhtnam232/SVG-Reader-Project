@@ -9,6 +9,8 @@
 #include"Polyline.h"
 #include"Rect.h"
 #include"Text.h"
+#include"Path.h"
+
 class Factory
 {
 	

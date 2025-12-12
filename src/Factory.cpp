@@ -31,5 +31,8 @@ myShape* Factory::getShape(tinyxml2::XMLElement* element) {
 	else if (name == "g") {
 		return new myGroup();
 	}
+	else if (name == "path") {
+		return new myPath();
+	}
 	return nullptr;
 }
