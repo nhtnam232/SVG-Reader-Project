@@ -1,7 +1,7 @@
 #include "Path.h"
 
 void myPath::parse(tinyxml2::XMLElement* node) {
-	myShape::parse(node);
+	myFilledShape::parse(node);
 	const char* d = node->Attribute("d");
 	if (d == nullptr) return;
 	string pathStr = d;
@@ -10,38 +10,144 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 	}
 	stringstream ss(pathStr);
 	char c;
-	float x, y, x1, y1, x2, y2, startX = 0.0f, startY = 0.0f, endX = 0.0f, endY = 0.0f;
+	float startX = 0.0f, startY = 0.0f, endX = 0.0f, endY = 0.0f;
 	while (ss >> c) {
-		switch (c) {
-		case 'M':
-			ss >> x >> y;
-			startX = x;
-			startY = y;
-			endX = x;
-			endY = y;
-			m_path->StartFigure();
-			break;
-		case 'L':
-			ss >> x >> y;
-			m_path->AddLine(endX, endY, x, y);
-			endX = x;
-			endY = y;
-			break;
-		case 'H':
-			ss >> x;
-			m_path->AddLine(endX, endY, x, endY);
-			endX = x;
-			break;
-		case 'V':
-			ss >> y;
-			m_path->AddLine(endX, endY, endX, y);
-			endY = y;
-			break;
-		case 'C':
+		if (c == 'M' || c == 'm') {
+			float x, y;
+			char nextChr;
+			int cnt = 0;
+			while (true) {
+				nextChr = ss.peek();
+				while (nextChr == ' ' || nextChr == ',' || nextChr == '\t' || nextChr == '\n') {
+					ss.ignore();
+					nextChr = ss.peek();
+				}
+				if (!isdigit(nextChr) && nextChr != '-' && nextChr != '.') {
+					break;
+				}
+				if (ss >> x >> y) {
+					float targetX, targetY;
+					if (c == 'M') {
+						targetX = x;
+						targetY = y;
+					}
+					else if (c == 'm') {
+						targetX = endX + x;
+						targetY = endY + y;
+					}
+					if (cnt > 0) {
+						m_path->AddLine(endX, endY, targetX, targetY);
+					}
+					else {
+						m_path->StartFigure();
+						startX = targetX;
+						startY = targetY;
+					}
+					endX = targetX;
+					endY = targetY;
+					cnt += 1;
+				}
+				else {
+					break;
+				}
+			}
+		}
+		else if (c == 'L' || c == 'l') {
+			float x, y;
+			char nextChr;
+			while (true) {
+				nextChr = ss.peek();
+				while (nextChr == ' ' || nextChr == ',' || nextChr == '\t' || nextChr == '\n') {
+					ss.ignore();
+					nextChr = ss.peek();
+				}
+				if (!isdigit(nextChr) && nextChr != '-' && nextChr != '.') {
+					break;
+				}
+				if (ss >> x >> y) {
+					float targetX, targetY;
+					if (c == 'L') {
+						targetX = x;
+						targetY = y;
+					}
+					else if (c == 'l') {
+						targetX = endX + x;
+						targetY = endY + y;
+					}
+					m_path->AddLine(endX, endY, targetX, targetY);
+					endX = targetX;
+					endY = targetY;
+				}
+				else {
+					break;
+				}
+			}
+		}
+		else if (c == 'H' || c == 'h') {
+			float x;
+			char nextChr;
+			while (true) {
+				nextChr = ss.peek();
+				while (nextChr == ' ' || nextChr == ',' || nextChr == '\t' || nextChr == '\n') {
+					ss.ignore();
+					nextChr = ss.peek();
+				}
+				if (!isdigit(nextChr) && nextChr != '-' && nextChr != '.') {
+					break;
+				}
+				if (ss >> x) {
+					float targetX, targetY;
+					if (c == 'H') {
+						targetX = x;
+						targetY = endY;
+					}
+					else if (c == 'h') {
+						targetX = endX + x;
+						targetY = endY;
+					}
+					m_path->AddLine(endX, endY, targetX, endY);
+					endX = targetX;
+				}
+				else {
+					break;
+				}
+			}
+		}
+		else if (c == 'V' || c == 'v') {
+			float y;
+			char nextChr;
+			while (true) {
+				nextChr = ss.peek();
+				while (nextChr == ' ' || nextChr == ',' || nextChr == '\t' || nextChr == '\n') {
+					ss.ignore();
+					nextChr = ss.peek();
+				}
+				if (!isdigit(nextChr) && nextChr != '-' && nextChr != '.') {
+					break;
+				}
+				if (ss >> y) {
+					float targetX, targetY;
+					if (c == 'V') {
+						targetX = endX;
+						targetY = y;
+					}
+					else if (c == 'v') {
+						targetX = endX;
+						targetY = endY + y;
+					}
+					m_path->AddLine(endX, endY, endX, targetY);
+					endY = targetY;
+				}
+				else {
+					break;
+				}
+			}
+		}
+		else if (c == 'C' || c == 'c') {
 			float x1, y1, x2, y2, x3, y3;
 			while (true) {
 				char nextChr = ss.peek();
-				while (nextChr == ' ') {
+				while (nextChr == ' ' || nextChr == ',' || nextChr == '\t' || nextChr == '\n') {
 					ss.ignore();
 					nextChr = ss.peek();
 				}
@@ -49,19 +155,30 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 					break;
 				}
 				if (ss >> x1 >> y1 >> x2 >> y2 >> x3 >> y3) {
-					m_path->AddBezier(endX, endY, x1, y1, x2, y2, x3, y3);
-					endX = x3;
-					endY = y3;
+					float targetX1, targetY1, targetX2, targetY2, targetX3, targetY3;
+					if (c == 'C') {
+						targetX1 = x1; targetY1 = y1;
+						targetX2= x2; targetY2 = y2;
+						targetX3 = x3; targetY3 = y3;
+					}
+					else if (c == 'c') {
+						targetX1 = endX + x1; targetY1 = endY + y1;
+						targetX2 = endX + x2; targetY2 = endY + y2;
+						targetX3 = endX + x3; targetY3 = endY + y3;
+					}
+					m_path->AddBezier(endX, endY, targetX1, targetY1, targetX2, targetY2, targetX3, targetY3);
+					endX = targetX3;
+					endY = targetY3;
 				}
 				else break;
 			}
-			break;
-		case 'Z':
+		}
+		else if (c == 'Z' || c == 'z') {
 			m_path->CloseFigure();
 			endX = startX;
 			endY = startY;
-			break;
-		default:
+		}
+		else {
 			break;
 		}
 	}
