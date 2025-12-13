@@ -38,10 +38,23 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 			endY = y;
 			break;
 		case 'C':
-			ss >> x1 >> y1 >> x2 >> y2 >> x >> y;
-			m_path->AddBezier(endX, endY, x1, y1, x2, y2, x, y);
-			endX = x;
-			endY = y;
+			float x1, y1, x2, y2, x3, y3;
+			while (true) {
+				char nextChr = ss.peek();
+				while (nextChr == ' ') {
+					ss.ignore();
+					nextChr = ss.peek();
+				}
+				if (!isdigit(nextChr) && nextChr != '-' && nextChr != '.') {
+					break;
+				}
+				if (ss >> x1 >> y1 >> x2 >> y2 >> x3 >> y3) {
+					m_path->AddBezier(endX, endY, x1, y1, x2, y2, x3, y3);
+					endX = x3;
+					endY = y3;
+				}
+				else break;
+			}
 			break;
 		case 'Z':
 			m_path->CloseFigure();
