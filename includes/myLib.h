@@ -11,7 +11,8 @@ constexpr double PI = 3.14159265358979323846;
 #include <algorithm> // maybe has std::clamp
 #include <cmath>
 #include <cstdint>
-
+#include<map>
+#include<fstream>
 
 #include"tinyxml2.h"
 #include <windows.h> 

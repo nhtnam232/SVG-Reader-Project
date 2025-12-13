@@ -4,6 +4,8 @@
 
 class Color {
 	Gdiplus::Color m_color;
+	static map<string, Gdiplus::Color> color_map;
+	static void loadColor(const string& filename);
 public:
 	Color() {}
 	Color(const string&);
