@@ -24,7 +24,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
     ULONG_PTR gdiplusToken;
     Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-    string filePath = "";
+    string filePath = "sample.svg";
     if (__argc > 1) {
         filePath = __argv[1];
     }
