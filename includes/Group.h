@@ -4,6 +4,8 @@
 #include"myLib.h"
 #include"FilledShape.h"
 #include"Factory.h"
+#include"Text.h"
+
 class myGroup : public myFilledShape {
 	vector<myShape*> m_children;
 public:

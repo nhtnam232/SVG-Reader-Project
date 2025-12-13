@@ -9,7 +9,11 @@ myGroup::~myGroup() {
 }
 void myGroup::parse(tinyxml2::XMLElement* node) {
 	myFilledShape::parse(node);
-
+	float fontSize = 0;
+	node->QueryFloatAttribute("font-size", &fontSize);
+	const char* fontFamilyAttr = node->Attribute("font-family");
+	const char* fontStyleAttr = node->Attribute("font-style");
+	const char* fontWeightAttr = node->Attribute("font-weight");
 	for (tinyxml2::XMLElement* subNode = node->FirstChildElement(); subNode != nullptr; subNode = subNode->NextSiblingElement()) {
 		myShape* child = Factory::getShape(subNode);
 		if (child != nullptr) {
@@ -21,16 +25,26 @@ void myGroup::parse(tinyxml2::XMLElement* node) {
 				childTemp->setFill(this->getFill());
 				childTemp->setFillOpacity(this->getFillOpacity());
 			}
+			myText* childText = dynamic_cast<myText*> (child);
+			if (childText != nullptr) {
+				childText->setFontFamily(fontFamilyAttr);
+				childText->setFontSize(fontSize);
+				childText->setFontStyle(fontStyleAttr, fontWeightAttr);
+			}
 			child->parse(subNode);
 			m_children.push_back(child);
 		}
 	}
 }
 void myGroup::draw(Gdiplus::Graphics& g) {
-	Gdiplus::GraphicsState state = g.Save();
+
+	Gdiplus::Matrix originalMatrix;
+	g.GetTransform(&originalMatrix);
+	Gdiplus::Matrix* transformMatrix = m_transforms.getFinalMatrix();
+	if (transformMatrix != nullptr) g.MultiplyTransform(transformMatrix);
 	for (myShape* child : m_children) {
 		child->draw(g);
 	}
-	g.Restore(state);
+	g.SetTransform(&originalMatrix);
 }
 

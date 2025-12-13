@@ -12,6 +12,9 @@ public:
 		m_font_style(Gdiplus::FontStyleRegular) {}
 	void parse(tinyxml2::XMLElement*) override;
 	void draw(Gdiplus::Graphics& g) override;
+	void setFontFamily(const char*);
+	void setFontSize(float);
+	void setFontStyle(const char*, const char*);
 };
 
 
