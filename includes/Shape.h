@@ -11,7 +11,7 @@ protected:
 	myListTransform m_transforms;
 
 public:
-	myShape() : m_stroke("none"), m_stroke_width(1.0f), m_stroke_opacity(1.0f){}
+	myShape() : m_stroke("none"), m_stroke_width(0.0f), m_stroke_opacity(1.0f){}
 	virtual ~myShape() {};
 	virtual void parse(tinyxml2::XMLElement*);
 	virtual void draw(Gdiplus::Graphics& g) = 0;

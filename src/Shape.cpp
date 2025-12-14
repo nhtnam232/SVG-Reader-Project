@@ -3,6 +3,7 @@ void myShape::parse(tinyxml2::XMLElement* node) {
 	const char* stroke_value = node->Attribute("stroke");
 	if (stroke_value != nullptr) {
 		m_stroke = Color(stroke_value);
+		m_stroke_width = 1.0;
 	}
 	node->QueryFloatAttribute("stroke-width", &m_stroke_width);
 	node->QueryFloatAttribute("stroke-opacity", &m_stroke_opacity);

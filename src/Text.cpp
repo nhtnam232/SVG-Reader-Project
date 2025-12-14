@@ -101,6 +101,13 @@ void myText::setFontStyle(const char* rawStyle, const char* rawWeight) {
         m_font_style = Gdiplus::FontStyleRegular;
     }
 }
+wstring UseUtf8ToWstring(const string& str) {
+    if (str.empty()) return wstring();
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
+    std::wstring wstrTo(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
+    return wstrTo;
+}
 void myText::draw(Gdiplus::Graphics& g)
 {
     if (m_text.empty())
@@ -115,35 +122,47 @@ void myText::draw(Gdiplus::Graphics& g)
     if (transformMatrix != nullptr)
         g.MultiplyTransform(transformMatrix);
 
-    // 3. Font
-    Gdiplus::Font font(
-        m_font_family.c_str(),
-        m_font_size,
-        m_font_style,
-        Gdiplus::UnitPixel
-    );
 
-    // 4. Fill
-    Color fill = m_fill;
-    fill.setOpacity(m_fill_opacity);
-    Gdiplus::SolidBrush brush(fill.getColor());
 
-    // 5. Tính baseline (SVG y là baseline)
+    // 4. Tính baseline (SVG y là baseline)
     Gdiplus::FontFamily fontFamily(m_font_family.c_str());
-    Gdiplus::REAL ascent = fontFamily.GetCellAscent(Gdiplus::FontStyleRegular);
-    Gdiplus::REAL emHeight = fontFamily.GetEmHeight(Gdiplus::FontStyleRegular);
+    Gdiplus::REAL ascent = fontFamily.GetCellAscent(m_font_style);
+    Gdiplus::REAL emHeight = fontFamily.GetEmHeight(m_font_style);
     Gdiplus::REAL baselineOffset = m_font_size * ascent / emHeight;
 
     Gdiplus::PointF pos(m_x, m_y - baselineOffset);
 
-    // 6. Vẽ text
-    std::wstring wtext(m_text.begin(), m_text.end());
-    g.DrawString(wtext.c_str(), -1, &font, pos, &brush);
+    // 5. Vẽ text
+    wstring wtext = UseUtf8ToWstring(m_text);
+    Gdiplus::GraphicsPath path;
+    path.AddString(
+        wtext.c_str(),
+        -1,
+        &fontFamily,
+        m_font_style,
+        m_font_size,
+        pos,
+        Gdiplus::StringFormat::GenericTypographic() 
+    );
+    if (m_fill_opacity > 0) {
+        Color fill = m_fill;
+        fill.setOpacity(m_fill_opacity);
+        Gdiplus::SolidBrush brush(fill.getColor());
+        g.FillPath(&brush, &path);
+    }
 
-    // 7. Restore transform
+    if (m_stroke_width > 0.0f && m_stroke_opacity > 0) {
+        Color strokeColor = m_stroke;
+        strokeColor.setOpacity(m_stroke_opacity);
+        Gdiplus::Pen pen(strokeColor.getColor(), m_stroke_width);
+        g.DrawPath(&pen, &path);
+    }
+   
+
+    // 6. Restore transform
     g.SetTransform(&originalMatrix);
 
-    // 8. Giải phóng matrix
+    // 7. Giải phóng matrix
     if (transformMatrix != nullptr)
         delete transformMatrix;
 }
