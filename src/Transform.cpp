@@ -59,7 +59,7 @@ Gdiplus::Matrix* myScale::GetMatrix() const {
 Gdiplus::Matrix* myListTransform::getFinalMatrix() const {
 	Gdiplus::Matrix* finalMatrix = new Gdiplus::Matrix();
 
-	for (int i = m_transforms.size() - 1; i >= 0; --i) {
+	for (int i = 0; i < m_transforms.size(); i++) {
 		Gdiplus::Matrix* tempMtx = m_transforms[i]->GetMatrix();
 		finalMatrix->Multiply(tempMtx, Gdiplus::MatrixOrderPrepend);
 		delete tempMtx;
