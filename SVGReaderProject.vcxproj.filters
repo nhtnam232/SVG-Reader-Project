@@ -78,6 +78,9 @@
     <ClInclude Include="includes\Path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\ViewBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Factory.cpp">
@@ -138,6 +141,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ViewBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

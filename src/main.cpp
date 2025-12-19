@@ -187,6 +187,16 @@ VOID OnPaint(HDC hdc)
     Gdiplus::SolidBrush backgroundBrush(Gdiplus::Color(255, 255, 255, 255));
     graphics.FillRectangle(&backgroundBrush, 0, 0, rc.right - rc.left, rc.bottom - rc.top);
 
+
+    ViewBox vb = parser.getViewBox();
+    Gdiplus::Matrix* matrix = vb.getTransformMatrix((float)(rc.right - rc.left), (float)(rc.bottom - rc.top));
+    if (matrix) {
+        graphics.SetTransform(matrix);
+
+        delete matrix;
+    }
+
+
     // Apply camera transform via svgRenderer
     svgRenderer.applyTransform(cam, graphics);
 
