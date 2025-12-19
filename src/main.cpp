@@ -72,12 +72,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
 // Window Proc
 // =========================
 // Hàm helper lấy tọa độ con trỏ trong client area
-Camera::Vec2 getMousePosInClient(HWND hWnd) {
-    POINT pt;
-    GetCursorPos(&pt);          // lấy vị trí chuột toàn màn hình
-    ScreenToClient(hWnd, &pt);  // chuyển sang tọa độ client
-    return { (double)pt.x, (double)pt.y };
-}
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     constexpr double MIN_SCALE = 0.1;
@@ -102,9 +97,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         cursorPt = { (double)pt.x, (double)pt.y };
 
         if (zDelta > 0)
-            cam.zoomIn(1.1, cursorPt);
+            cam.zoomIn(1.1);
         else
-            cam.zoomOut(1.1, cursorPt);
+            cam.zoomOut(1.1);
 
         InvalidateRect(hWnd, NULL, TRUE);
     } break;
@@ -117,26 +112,53 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         Camera::Vec2 cursorPt = { (double)pt.x, (double)pt.y };
 
         switch (wParam) {
-        case VK_UP:
-            cam.zoomIn(1.1, cursorPt);   // zoom quanh con trỏ
+
+            // ===== ZOOM =====
+        case 'I':
+            cam.zoomIn(1.1);   // zoom quanh con trỏ
             break;
-        case VK_DOWN:
-            cam.zoomOut(1.1, cursorPt);  // zoom quanh con trỏ
+
+        case 'O':
+            cam.zoomOut(1.1);  // zoom quanh con trỏ
             break;
-        case VK_LEFT:
-            cam.rotate(-5.0);            // rotate quanh center
+
+            // ===== ROTATE =====
+        case 'L':
+            cam.rotate(-5.0);
             break;
-        case VK_RIGHT:
-            cam.rotate(5.0);             // rotate quanh center
-            break;
+
         case 'R':
+            cam.rotate(5.0);
+            break;
+
+            // ===== RESET =====
+        case '\n':   // Enter
             cam.reset();
             break;
+                // ===== PAN BẰNG PHÍM MŨI TÊN (PHẦN THÊM) =====
+        case VK_UP:
+        case VK_DOWN:
+        case VK_LEFT:
+        case VK_RIGHT:
+        {
+            Camera::Vec2 c = cam.getCenter();
+            double step = 30.0 / cam.getScale(); // pan mượt theo zoom
+
+            if (wParam == VK_UP)        c.y -= step;
+            if (wParam == VK_DOWN)      c.y += step;
+            if (wParam == VK_LEFT)      c.x -= step;
+            if (wParam == VK_RIGHT)     c.x += step;
+
+            cam.setCenter(c);
+            break;
+        }
+
         default:
             break;
         }
+
         InvalidateRect(hWnd, NULL, TRUE);
-    } break;
+	} break;
 
 
     case WM_DESTROY:
