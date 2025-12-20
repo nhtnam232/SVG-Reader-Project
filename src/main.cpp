@@ -144,10 +144,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             Camera::Vec2 c = cam.getCenter();
             double step = 30.0 / cam.getScale(); // pan mượt theo zoom
 
-            if (wParam == VK_UP)        c.y -= step;
-            if (wParam == VK_DOWN)      c.y += step;
-            if (wParam == VK_LEFT)      c.x -= step;
-            if (wParam == VK_RIGHT)     c.x += step;
+            if (wParam == VK_DOWN)        c.y -= step;
+            if (wParam == VK_UP)      c.y += step;
+            if (wParam == VK_RIGHT)      c.x -= step;
+            if (wParam == VK_LEFT)     c.x += step;
 
             cam.setCenter(c);
             break;
