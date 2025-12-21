@@ -3,8 +3,14 @@ void myText::parse(tinyxml2::XMLElement* node) {
 	myFilledShape::parse(node);
 	node->QueryFloatAttribute("x", &m_x);
 	node->QueryFloatAttribute("y", &m_y);
+    node->QueryFloatAttribute("dx", &m_dx);
+    node->QueryFloatAttribute("dy", &m_dy);
 	node->QueryFloatAttribute("font-size", &m_font_size);
 	const char* content = node->GetText();
+    const char* textAnchor = node->Attribute("text-anchor");
+    if (textAnchor != nullptr) {
+        m_textAnchor = textAnchor;
+    }
 	if (content != nullptr) {
 		m_text = content;
 	}
@@ -113,6 +119,9 @@ void myText::draw(Gdiplus::Graphics& g)
     if (m_text.empty())
         return;
 
+
+    float finalX = m_x + m_dx;
+    float finalY = m_y + m_dy;
     // 1. Lưu transform gốc
     Gdiplus::Matrix originalMatrix;
     g.GetTransform(&originalMatrix);
@@ -122,7 +131,18 @@ void myText::draw(Gdiplus::Graphics& g)
     if (transformMatrix != nullptr)
         g.MultiplyTransform(transformMatrix);
 
+    //3. Text anchor
+    Gdiplus::StringFormat* format = Gdiplus::StringFormat::GenericTypographic()->Clone();
 
+    if (m_textAnchor == "middle") {
+        format->SetAlignment(Gdiplus::StringAlignmentCenter);
+    }
+    else if (m_textAnchor == "end") {
+        format->SetAlignment(Gdiplus::StringAlignmentFar);
+    }
+    else {
+        format->SetAlignment(Gdiplus::StringAlignmentNear); 
+    }
 
     // 4. Tính baseline (SVG y là baseline)
     Gdiplus::FontFamily fontFamily(m_font_family.c_str());
@@ -130,7 +150,7 @@ void myText::draw(Gdiplus::Graphics& g)
     Gdiplus::REAL emHeight = fontFamily.GetEmHeight(m_font_style);
     Gdiplus::REAL baselineOffset = m_font_size * ascent / emHeight;
 
-    Gdiplus::PointF pos(m_x, m_y - baselineOffset);
+    Gdiplus::PointF pos(finalX, finalY - baselineOffset);
 
     // 5. Vẽ text
     wstring wtext = UseUtf8ToWstring(m_text);
@@ -142,7 +162,7 @@ void myText::draw(Gdiplus::Graphics& g)
         m_font_style,
         m_font_size,
         pos,
-        Gdiplus::StringFormat::GenericTypographic() 
+        format
     );
     if (m_fill_opacity > 0) {
         Color fill = m_fill;
@@ -155,6 +175,7 @@ void myText::draw(Gdiplus::Graphics& g)
         Color strokeColor = m_stroke;
         strokeColor.setOpacity(m_stroke_opacity);
         Gdiplus::Pen pen(strokeColor.getColor(), m_stroke_width);
+        pen.SetLineJoin(Gdiplus::LineJoinRound); 
         g.DrawPath(&pen, &path);
     }
    
@@ -165,4 +186,7 @@ void myText::draw(Gdiplus::Graphics& g)
     // 7. Giải phóng matrix
     if (transformMatrix != nullptr)
         delete transformMatrix;
+    if (format != nullptr) {
+        delete format;
+    }
 }
