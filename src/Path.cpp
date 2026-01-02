@@ -1,4 +1,5 @@
 #include "Path.h"
+#include "Parser.h"
 
 void myPath::parse(tinyxml2::XMLElement* node) {
 	myFilledShape::parse(node);
@@ -190,17 +191,42 @@ void myPath::draw(Gdiplus::Graphics& g)
 	g.GetTransform(&originalMatrix);
 
 	Gdiplus::Matrix* transformMatrix = m_transforms.getFinalMatrix();
-	if(transformMatrix != nullptr) g.MultiplyTransform(transformMatrix);
+	if(transformMatrix != nullptr)
+		g.MultiplyTransform(transformMatrix);
 
-	m_fill.setOpacity(m_fill_opacity);
-	Gdiplus::SolidBrush fill_pen(m_fill.getColor());
-	g.FillPath(&fill_pen, m_path);
+	Gdiplus::RectF bounds;
+	m_path->GetBounds(&bounds);
 
-	if (m_stroke.getColor().GetAlpha() != 0 && m_stroke_width != 0)
+	Gdiplus::Brush* fillBrush = nullptr;
+	if (!m_fill_gradient_id.empty()) {
+		myGradient* grad = parser.getGradient(m_fill_gradient_id);
+		if (grad) fillBrush = grad->createBrush(bounds);
+	}
+	if (!fillBrush) {
+		Color fill = m_fill;
+		fill.setOpacity(m_fill_opacity);
+		fillBrush = new Gdiplus::SolidBrush(fill.getColor());
+	}
+	g.FillPath(fillBrush, m_path);
+	delete fillBrush;
+
+	if (m_stroke_width != 0 && (!m_stroke_gradient_id.empty() || m_stroke.getColor().GetAlpha() != 0))
 	{
-		m_stroke.setOpacity(m_stroke_opacity);
-		Gdiplus::Pen stroke_pen(m_stroke.getColor(),m_stroke_width);
-		g.DrawPath(&stroke_pen, m_path);
+		Gdiplus::Brush* strokeBrush = nullptr;
+		if (!m_stroke_gradient_id.empty()) {
+			myGradient* grad = parser.getGradient(m_stroke_gradient_id);
+			if (grad) strokeBrush = grad->createBrush(bounds);
+		}
+
+		if (!strokeBrush) {
+			Color stroke = m_stroke;
+			stroke.setOpacity(m_stroke_opacity);
+			strokeBrush = new Gdiplus::SolidBrush(stroke.getColor());
+		}
+
+		Gdiplus::Pen pen(strokeBrush, m_stroke_width);
+		g.DrawPath(&pen, m_path);
+		delete strokeBrush;
 	}
 
 	g.SetTransform(&originalMatrix);

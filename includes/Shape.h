@@ -3,15 +3,17 @@
 #include"myLib.h"
 #include"Color.h"
 #include "Transform.h"
+
 class myShape
 {
 protected:
 	Color m_stroke;
 	float m_stroke_width, m_stroke_opacity;
 	myListTransform m_transforms;
+	std::string m_stroke_gradient_id;
 
 public:
-	myShape() : m_stroke("none"), m_stroke_width(0.0f), m_stroke_opacity(1.0f){}
+	myShape() : m_stroke("none"), m_stroke_width(0.0f), m_stroke_opacity(1.0f), m_stroke_gradient_id("") {}
 	virtual ~myShape() {};
 	virtual void parse(tinyxml2::XMLElement*);
 	virtual void draw(Gdiplus::Graphics& g) = 0;

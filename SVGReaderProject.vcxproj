@@ -25,6 +25,7 @@
     <ClInclude Include="includes\Ellipse.h" />
     <ClInclude Include="includes\Factory.h" />
     <ClInclude Include="includes\FilledShape.h" />
+    <ClInclude Include="includes\Gradient.h" />
     <ClInclude Include="includes\Group.h" />
     <ClInclude Include="includes\Line.h" />
     <ClInclude Include="includes\myLib.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="includes\Points.h" />
     <ClInclude Include="includes\Polygon.h" />
     <ClInclude Include="includes\Polyline.h" />
+    <ClInclude Include="includes\RadialGradient.h" />
     <ClInclude Include="includes\Rect.h" />
     <ClInclude Include="includes\Shape.h" />
     <ClInclude Include="includes\SVGRenderer.h" />
@@ -49,6 +51,7 @@
     <ClCompile Include="src\Ellipse.cpp" />
     <ClCompile Include="src\Factory.cpp" />
     <ClCompile Include="src\FilledShape.cpp" />
+    <ClCompile Include="src\Gradient.cpp" />
     <ClCompile Include="src\Group.cpp" />
     <ClCompile Include="src\Line.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -57,6 +60,7 @@
     <ClCompile Include="src\Points.cpp" />
     <ClCompile Include="src\Polygon.cpp" />
     <ClCompile Include="src\Polyline.cpp" />
+    <ClCompile Include="src\RadialGradient.cpp" />
     <ClCompile Include="src\Rect.cpp" />
     <ClCompile Include="src\Shape.cpp" />
     <ClCompile Include="src\SVGRenderer.cpp" />

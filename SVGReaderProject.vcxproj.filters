@@ -81,6 +81,12 @@
     <ClInclude Include="includes\ViewBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\Gradient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\RadialGradient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Factory.cpp">
@@ -144,6 +150,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ViewBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gradient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RadialGradient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

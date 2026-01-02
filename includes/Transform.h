@@ -31,6 +31,15 @@ public:
 	Gdiplus::Matrix* GetMatrix() const override;
 };
 
+class myMatrix : public myTransform {
+	float m_a, m_b, m_c, m_d, m_e, m_f;
+public:
+	myMatrix(float a, float b, float c, float d, float e, float f)
+		: m_a(a), m_b(b), m_c(c), m_d(d), m_e(e), m_f(f) {
+	}
+	Gdiplus::Matrix* GetMatrix() const override;
+};
+
 class myListTransform {
 	vector<myTransform*> m_transforms;
 public:
@@ -44,7 +53,5 @@ public:
 	void parse(const char* transformStr);
 	Gdiplus::Matrix* getFinalMatrix() const;
 };
-
-
 
 #endif // !TRANSFORM_H

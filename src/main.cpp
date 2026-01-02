@@ -7,7 +7,7 @@
 #include "SVGRenderer.h"
 
 static Camera cam;
-static Parser parser;
+Parser parser;
 static SVGRenderer svgRenderer;
 
 // Forward

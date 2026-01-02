@@ -38,6 +38,12 @@ void myListTransform::parse(const char* transformStr) {
 			ss >> angle;
 			m_transforms.push_back(new myRotate(angle));
 		}
+		else if (command == "matrix") {
+			float a, b, c, d, e, f;
+			if (ss >> a >> b >> c >> d >> e >> f) {
+				m_transforms.push_back(new myMatrix(a, b, c, d, e, f));
+			}
+		}
 	}
 }
 
@@ -54,6 +60,10 @@ Gdiplus::Matrix* myRotate::GetMatrix() const {
 
 Gdiplus::Matrix* myScale::GetMatrix() const {
 	return new Gdiplus::Matrix(m_sx, 0.0f, 0.0f, m_sy, 0.0f, 0.0f);
+}
+
+Gdiplus::Matrix* myMatrix::GetMatrix() const {
+	return new Gdiplus::Matrix(m_a, m_b, m_c, m_d, m_e, m_f);
 }
 
 Gdiplus::Matrix* myListTransform::getFinalMatrix() const {

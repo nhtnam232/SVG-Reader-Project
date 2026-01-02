@@ -4,12 +4,15 @@
 #include"myLib.h"
 #include"Shape.h"
 #include"Color.h"
+#include "Gradient.h"
+
 class myFilledShape : public myShape {
 protected:
 	Color m_fill;
 	float m_fill_opacity;
+	std::string m_fill_gradient_id;
 public:
-	myFilledShape() : myShape(), m_fill(""), m_fill_opacity(1.0f) {}
+	myFilledShape() : myShape(), m_fill(""), m_fill_opacity(1.0f), m_fill_gradient_id("") {}
 	virtual void parse(tinyxml2::XMLElement*) override;
 	virtual void draw(Gdiplus::Graphics& g) override = 0;
 	Color getFill();
