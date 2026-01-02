@@ -6,6 +6,7 @@
 #include "ViewBox.h"
 #include "Gradient.h"
 #include "RadialGradient.h"
+#include "LinearGradient.h"
 
 class Parser {
 	vector<myShape*> m_shapes;

@@ -71,7 +71,7 @@ void Parser::parseDefinitions(tinyxml2::XMLElement* parent) {
 		myGradient* grad = nullptr;
 
 		if (tagName == "linearGradient") {
-			//grad = new myLinearGradient();
+			grad = new myLinearGradient();
 		}
 		else if (tagName == "radialGradient") {
 			grad = new myRadialGradient();

@@ -28,6 +28,7 @@
     <ClInclude Include="includes\Gradient.h" />
     <ClInclude Include="includes\Group.h" />
     <ClInclude Include="includes\Line.h" />
+    <ClInclude Include="includes\LinearGradient.h" />
     <ClInclude Include="includes\myLib.h" />
     <ClInclude Include="includes\Parser.h" />
     <ClInclude Include="includes\Path.h" />
@@ -54,6 +55,7 @@
     <ClCompile Include="src\Gradient.cpp" />
     <ClCompile Include="src\Group.cpp" />
     <ClCompile Include="src\Line.cpp" />
+    <ClCompile Include="src\LinearGradient.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Parrser.cpp" />
     <ClCompile Include="src\Path.cpp" />
