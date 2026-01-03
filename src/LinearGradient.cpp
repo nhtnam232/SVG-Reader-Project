@@ -88,5 +88,6 @@ Gdiplus::Brush* myLinearGradient::createBrush(const Gdiplus::RectF& objectBounds
         delete[] positions;
     }
     brush->MultiplyTransform(m_gradientTransform.getFinalMatrix());
+    brush->SetWrapMode(Gdiplus::WrapModeTileFlipX);
     return brush;
 }
