@@ -51,7 +51,9 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 					endX = targetX;
 					endY = targetY;
 					cnt += 1;
-					
+					lastcontrolX = endX;
+					lastcontrolY = endY;
+
 				}
 				else {
 					break;
@@ -84,6 +86,8 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 					endX = targetX;
 					endY = targetY;
 					lastCommand = c;
+					lastcontrolX = endX;
+					lastcontrolY = endY;
 				}
 				else {
 					break;
@@ -115,6 +119,8 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 					m_path->AddLine(endX, endY, targetX, endY);
 					endX = targetX;
 					lastCommand = c;
+					lastcontrolX = endX;
+					lastcontrolY = endY;
 				}
 				else {
 					break;
@@ -146,6 +152,8 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 					m_path->AddLine(endX, endY, endX, targetY);
 					endY = targetY;
 					lastCommand = c;
+					lastcontrolX = endX;
+					lastcontrolY = endY;
 				}
 				else {
 					break;
@@ -167,7 +175,7 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 					float targetX1, targetY1, targetX2, targetY2, targetX3, targetY3;
 					if (c == 'C') {
 						targetX1 = x1; targetY1 = y1;
-						targetX2= x2; targetY2 = y2;
+						targetX2 = x2; targetY2 = y2;
 						targetX3 = x3; targetY3 = y3;
 					}
 					else if (c == 'c') {
@@ -223,7 +231,92 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 					lastCommand = c;
 
 				}
+			}
+		}
+		else if (c == 'Q' || c == 'q') {
+			float x1, y1, x, y;
+			while (true) {
+				char nextChr = ss.peek();
+				while (nextChr == ' ' || nextChr == ',' || nextChr == '\t' || nextChr == '\n') {
+					ss.ignore();
+					nextChr = ss.peek();
+				}
+				if (!isdigit(nextChr) && nextChr != '-' && nextChr != '.') break;
+				if (ss >> x1 >> y1 >> x >> y) {
+					float targetX1, targetY1, targetX, targetY;
+					if (c == 'Q') {
+						targetX1 = x1; targetY1 = y1;
+						targetX = x; targetY = y;
+					}
+					else {
+						targetX1 = endX + x1; targetY1 = endY + y1;
+						targetX = endX + x; targetY = endY + y;
+					}
+					float c1x = endX + (2.0f / 3.0f) * (targetX1 - endX);
+					float c1y = endY + (2.0f / 3.0f) * (targetY1 - endY);
 
+					float c2x = targetX + (2.0f / 3.0f) * (targetX1 - targetX);
+					float c2y = targetY + (2.0f / 3.0f) * (targetY1 - targetY);
+
+					m_path->AddBezier(endX, endY, c1x, c1y, c2x, c2y, targetX, targetY);
+
+
+					endX = targetX;
+					endY = targetY;
+					lastcontrolX = targetX1;
+					lastcontrolY = targetY1;
+					lastCommand = c;
+				}
+				else {
+					break;
+				}
+			}
+		}
+		else if (c == 'T' || c == 't') {
+			float x, y;
+			while (true) {
+				char nextChr = ss.peek();
+				while (nextChr == ' ' || nextChr == ',' || nextChr == '\t' || nextChr == '\n') {
+					ss.ignore();
+					nextChr = ss.peek();
+				}
+				if (!isdigit(nextChr) && nextChr != '-' && nextChr != '.') break;
+
+				if (ss >> x >> y) {
+					float targetX, targetY;
+					if (c == 'T') {
+						targetX = x; targetY = y;
+					}
+					else { 
+						targetX = endX + x; targetY = endY + y;
+					}
+
+					float ctrlX, ctrlY;
+
+					if (lastCommand == 'Q' || lastCommand == 'q' || lastCommand == 'T' || lastCommand == 't') {
+						ctrlX = 2 * endX - lastcontrolX;
+						ctrlY = 2 * endY - lastcontrolY;
+					}
+					else {
+						ctrlX = endX;
+						ctrlY = endY;
+					}
+
+					float c1x = endX + (2.0f / 3.0f) * (ctrlX - endX);
+					float c1y = endY + (2.0f / 3.0f) * (ctrlY - endY);
+
+					float c2x = targetX + (2.0f / 3.0f) * (ctrlX - targetX);
+					float c2y = targetY + (2.0f / 3.0f) * (ctrlY - targetY);
+
+					m_path->AddBezier(endX, endY, c1x, c1y, c2x, c2y, targetX, targetY);
+
+					endX = targetX;
+					endY = targetY;
+					lastcontrolX = ctrlX;
+					lastcontrolY = ctrlY;
+					lastCommand = c;
+				}
+				else break;
 			}
 		}
 		else if (c == 'A' || c == 'a') {
@@ -242,17 +335,14 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 				if (!(ss >> rx >> ry >> x_axis_rotation)) break;
 
 				char flagChar;
-				while (ss.peek() == ' ' || ss.peek() == ',') ss.ignore();
 				if (!(ss >> flagChar)) break;
-				large_arc_flag = (flagChar == '1'); 
+				large_arc_flag = (flagChar == '1');
 
-	
-				while (ss.peek() == ' ' || ss.peek() == ',') ss.ignore();
+
 				if (!(ss >> flagChar)) break;
 				sweep_flag = (flagChar == '1');
 
 
-				while (ss.peek() == ' ' || ss.peek() == ',') ss.ignore();
 				if (!(ss >> x_val >> y_val)) break;
 
 
@@ -275,8 +365,8 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 					double x1 = cosAngle * dx2 + sinAngle * dy2;
 					double y1 = -sinAngle * dx2 + cosAngle * dy2;
 
-					rx = abs(rx);
-					ry = abs(ry);
+					rx = fabs(rx);
+					ry = fabs(ry);
 					double Prx = rx * rx;
 					double Pry = ry * ry;
 					double Px1 = x1 * x1;
@@ -379,14 +469,15 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 }
 
 void myPath::draw(Gdiplus::Graphics& g)
-{	
+{
 	Gdiplus::Matrix originalMatrix;
 	g.GetTransform(&originalMatrix);
 
 	Gdiplus::Matrix* transformMatrix = m_transforms.getFinalMatrix();
-	if(transformMatrix != nullptr)
+	if (transformMatrix != nullptr)
 		g.MultiplyTransform(transformMatrix);
 
+	m_path->SetFillMode(Gdiplus::FillModeWinding);
 	Gdiplus::RectF bounds;
 	m_path->GetBounds(&bounds);
 
