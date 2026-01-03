@@ -16,6 +16,8 @@ public:
 	myShape() : m_stroke("none"), m_stroke_width(0.0f), m_stroke_opacity(1.0f), m_stroke_gradient_id("") {}
 	virtual ~myShape() {};
 	virtual void parse(tinyxml2::XMLElement*);
+	const map<string, string> parseStyle(const char*);
+	virtual void applyStyleAttributes(const map<string, string>&);
 	virtual void draw(Gdiplus::Graphics& g) = 0;
 	Color getStroke();
 	float getStrokeWidth();

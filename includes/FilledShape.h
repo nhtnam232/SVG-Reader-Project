@@ -14,6 +14,7 @@ protected:
 public:
 	myFilledShape() : myShape(), m_fill(""), m_fill_opacity(1.0f), m_fill_gradient_id("") {}
 	virtual void parse(tinyxml2::XMLElement*) override;
+	void applyStyleAttributes(const map<string, string>&) override;
 	virtual void draw(Gdiplus::Graphics& g) override = 0;
 	Color getFill();
 	float getFillOpacity();
