@@ -35,7 +35,7 @@ void DrawHelpOverlay(Gdiplus::Graphics& g, const RECT& rc)
     const WCHAR* text =
         L"I / O : Zoom in / out\n"
         L"L / R : Rotate left / right\n"
-        L"← ↑ ↓ →: Move\n"
+        L"Arrow Keys: Move\n"
         L"Enter : Reset\n"
         L"H : Hide / Show";
 
