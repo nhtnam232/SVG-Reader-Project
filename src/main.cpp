@@ -5,10 +5,12 @@
 //#include "Vec2.h"
 #include "Camera.h"
 #include "SVGRenderer.h"
+#include "DrawUI.h"
 
 static Camera cam;
 Parser parser;
 static SVGRenderer svgRenderer;
+static bool g_showHelp = true;
 
 // Forward
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -24,7 +26,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow)
     ULONG_PTR gdiplusToken;
     Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-    string filePath = "samples/chrome-logo.svg";
+    string filePath = "svg-01.svg";
     if (__argc > 1) {
         filePath = __argv[1];
     }
@@ -130,9 +132,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case 'R':
             cam.rotate(5.0);
             break;
+        case 'H':
+            g_showHelp = !g_showHelp;
+            InvalidateRect(hWnd, NULL, TRUE);
+            break;
 
             // ===== RESET =====
         case '\n':   // Enter
+        case '\r':
             cam.reset();
             break;
                 // ===== PAN BẰNG PHÍM MŨI TÊN (PHẦN THÊM) =====
@@ -168,7 +175,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
-
 
 
 // =========================
@@ -207,5 +213,11 @@ VOID OnPaint(HDC hdc)
     // nếu cần vẽ UI overlay:
     // graphics.ResetTransform();
     // draw UI here
+
+    if (g_showHelp)
+    {
+        graphics.ResetTransform();
+        DrawHelpOverlay(graphics, rc);
+    }
 }
 

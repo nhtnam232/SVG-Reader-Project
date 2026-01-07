@@ -90,6 +90,9 @@
     <ClInclude Include="includes\LinearGradient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\DrawUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Factory.cpp">
@@ -162,6 +165,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\LinearGradient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DrawUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
