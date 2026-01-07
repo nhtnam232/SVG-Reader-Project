@@ -23,7 +23,15 @@ void myCircle::draw(Gdiplus::Graphics& g)
     float top = m_cy - m_r;
     float width = 2 * m_r;
     float height = 2 * m_r;
-    Gdiplus::RectF bounds(left, top, width, height);
+    Gdiplus::RectF ellipseRect(left, top, width, height);
+    Gdiplus::GraphicsPath path;
+    path.AddEllipse(ellipseRect);
+    Gdiplus::Pen pen(m_stroke.getColor(), m_stroke_width);
+    Gdiplus::GraphicsPath* p = static_cast<Gdiplus::GraphicsPath*>(path.Clone());
+    p->Widen(&pen);
+    Gdiplus::RectF bounds;
+    p->GetBounds(&bounds);
+    delete p;
     
     // 4. Fill
     Gdiplus::Brush* fillBrush = nullptr;
@@ -35,7 +43,8 @@ void myCircle::draw(Gdiplus::Graphics& g)
     // Nếu không có gradient hoặc tìm không thấy, dùng Solid Color
     if (!fillBrush) {
         Color fill = m_fill;
-        fill.setOpacity(m_fill_opacity);
+        if (fill.getColor().GetAlpha() != 0)
+            fill.setOpacity(m_fill_opacity);
         fillBrush = new Gdiplus::SolidBrush(fill.getColor());
     }
     g.FillEllipse(fillBrush, left, top, width, height);

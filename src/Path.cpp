@@ -287,7 +287,7 @@ void myPath::parse(tinyxml2::XMLElement* node) {
 					if (c == 'T') {
 						targetX = x; targetY = y;
 					}
-					else { 
+					else {
 						targetX = endX + x; targetY = endY + y;
 					}
 
@@ -478,8 +478,14 @@ void myPath::draw(Gdiplus::Graphics& g)
 		g.MultiplyTransform(transformMatrix);
 
 	m_path->SetFillMode(Gdiplus::FillModeWinding);
+	
+	// bounds
 	Gdiplus::RectF bounds;
-	m_path->GetBounds(&bounds);
+	Gdiplus::Pen pen(m_stroke.getColor(), m_stroke_width);
+	Gdiplus::GraphicsPath* p = static_cast<Gdiplus::GraphicsPath*>(m_path->Clone());
+	p->Widen(&pen);
+	p->GetBounds(&bounds);
+	delete p;
 
 	Gdiplus::Brush* fillBrush = nullptr;
 	if (!m_fill_gradient_id.empty()) {
@@ -488,7 +494,8 @@ void myPath::draw(Gdiplus::Graphics& g)
 	}
 	if (!fillBrush) {
 		Color fill = m_fill;
-		fill.setOpacity(m_fill_opacity);
+		if (fill.getColor().GetAlpha() != 0)
+			fill.setOpacity(m_fill_opacity);
 		fillBrush = new Gdiplus::SolidBrush(fill.getColor());
 	}
 	g.FillPath(fillBrush, m_path);

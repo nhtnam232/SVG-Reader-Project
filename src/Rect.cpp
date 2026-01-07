@@ -20,7 +20,16 @@ void myRect::draw(Gdiplus::Graphics& g)
     if (transformMatrix != nullptr)
         g.MultiplyTransform(transformMatrix);
 
-    Gdiplus::RectF bounds(m_x, m_y, m_width, m_height);
+    // bounds
+    Gdiplus::RectF bound_temp(m_x, m_y, m_width, m_height);
+    Gdiplus::GraphicsPath path;
+    path.AddRectangle(bound_temp);
+    Gdiplus::Pen pen(Gdiplus::Color(255, 0, 0, 0), m_stroke_width);
+    Gdiplus::GraphicsPath* p = static_cast<Gdiplus::GraphicsPath*>(path.Clone());
+    p->Widen(&pen);
+    Gdiplus::RectF bounds;
+    p->GetBounds(&bounds);
+    delete p;
 
     // 3. Fill
     Gdiplus::Brush* fillBrush = nullptr;
@@ -31,7 +40,8 @@ void myRect::draw(Gdiplus::Graphics& g)
     }
     if (!fillBrush) {
         Color fill = m_fill;
-        fill.setOpacity(m_fill_opacity);
+        if (fill.getColor().GetAlpha() != 0)
+            fill.setOpacity(m_fill_opacity);
         fillBrush = new Gdiplus::SolidBrush(fill.getColor());
     }
     g.FillRectangle(fillBrush, bounds);

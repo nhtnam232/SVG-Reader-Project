@@ -1,4 +1,6 @@
 ﻿#include"Ellipse.h"
+#include "Parser.h"
+
 void myEllipse::parse(tinyxml2::XMLElement* node) {
 	myFilledShape::parse(node);
 	node->QueryFloatAttribute("cx", &m_cx);
@@ -22,20 +24,51 @@ void myEllipse::draw(Gdiplus::Graphics& g)
     float y = m_cy - m_ry;
     float width = 2.0f * m_rx;
     float height = 2.0f * m_ry;
+    Gdiplus::RectF ellipseRect(x, y, width, height);
+    Gdiplus::GraphicsPath path;
+    path.AddEllipse(ellipseRect);
+    Gdiplus::Pen pen(m_stroke.getColor(), m_stroke_width);
+    Gdiplus::GraphicsPath* p = static_cast<Gdiplus::GraphicsPath*>(path.Clone());
+    p->Widen(&pen);
+    Gdiplus::RectF bounds;
+    p->GetBounds(&bounds);
+    delete p;
 
     // 4. Fill
-    Color fill = m_fill;
-    fill.setOpacity(m_fill_opacity);
-    Gdiplus::SolidBrush brush(fill.getColor());
-    g.FillEllipse(&brush, x, y, width, height);
+    Gdiplus::Brush* fillBrush = nullptr;
+    // Kiểm tra xem có dùng Gradient không (m_fill_gradient_id là string mới thêm vào class)
+    if (!m_fill_gradient_id.empty()) {
+        myGradient* grad = parser.getGradient(m_fill_gradient_id);
+        if (grad) fillBrush = grad->createBrush(bounds);
+    }
+    // Nếu không có gradient hoặc tìm không thấy, dùng Solid Color
+    if (!fillBrush) {
+        Color fill = m_fill;
+        if (fill.getColor().GetAlpha() != 0)
+            fill.setOpacity(m_fill_opacity);
+        fillBrush = new Gdiplus::SolidBrush(fill.getColor());
+    }
+    g.FillEllipse(fillBrush, x, y, width, height);
+    delete fillBrush;
 
     // 5. Stroke (chỉ vẽ khi hợp lệ)
-    if (m_stroke.getColor().GetAlpha() != 0 && m_stroke_width != 0)
+    if (m_stroke_width != 0 && (!m_stroke_gradient_id.empty() || m_stroke.getColor().GetAlpha() != 0))
     {
-        Color stroke = m_stroke;
-        stroke.setOpacity(m_stroke_opacity);
-        Gdiplus::Pen stroke_pen(stroke.getColor(), m_stroke_width);
-        g.DrawEllipse(&stroke_pen, x, y, width, height);
+        Gdiplus::Brush* strokeBrush = nullptr;
+        if (!m_stroke_gradient_id.empty()) {
+            myGradient* grad = parser.getGradient(m_stroke_gradient_id);
+            if (grad) strokeBrush = grad->createBrush(bounds);
+        }
+
+        if (!strokeBrush) {
+            Color stroke = m_stroke;
+            stroke.setOpacity(m_stroke_opacity);
+            strokeBrush = new Gdiplus::SolidBrush(stroke.getColor());
+        }
+
+        Gdiplus::Pen pen(strokeBrush, m_stroke_width);
+        g.DrawEllipse(&pen, x, y, width, height);
+        delete strokeBrush;
     }
 
     // 6. Restore transform
